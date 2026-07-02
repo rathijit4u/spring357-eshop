@@ -24,7 +24,7 @@ public class UserServiceTest {
     private UserServiceImpl userService;
 
     @Test
-    public void testGetActiveAllUsers() {
+    public void testGetAllUsers() {
         User user = User.builder()
                 .id(1L)
                 .firstName("John")

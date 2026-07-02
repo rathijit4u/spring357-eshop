@@ -31,7 +31,9 @@ public class OrderDto {
         @Valid
         private List<ItemRequest> items;
 
+        @NotNull(message = "Shipping Address is required")
         private String shippingAddress;
+
         private String notes;
     }
 
