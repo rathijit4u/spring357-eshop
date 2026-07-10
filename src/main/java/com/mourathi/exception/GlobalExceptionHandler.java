@@ -3,11 +3,13 @@ package com.mourathi.exception;
 import com.mourathi.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +50,27 @@ public class GlobalExceptionHandler {
                         .data(errors)
                         .timestamp(java.time.LocalDateTime.now())
                         .build());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        String[] messages = ex.getLocalizedMessage().split(":");
+        if (messages.length > 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.<Map<String, String>>builder()
+                            .success(false)
+                            .message(messages[0])
+                            .timestamp(LocalDateTime.now())
+                            .build());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.<Map<String, String>>builder()
+                            .success(false)
+                            .message(ex.getLocalizedMessage())
+                            .timestamp(LocalDateTime.now())
+                            .build());
+        }
+
     }
 
     @ExceptionHandler(Exception.class)
