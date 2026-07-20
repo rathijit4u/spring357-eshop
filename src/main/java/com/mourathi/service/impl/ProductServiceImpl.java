@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProductResponse getProductById(Long id) {
+    public ProductResponse getProductById(UUID id) {
         return mapToResponse(findProductOrThrow(id));
     }
 
@@ -83,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(Long id, ProductRequest request) {
+    public ProductResponse updateProduct(UUID id, ProductRequest request) {
         Product product = findProductOrThrow(id);
         if (request.getSku() != null && !request.getSku().equals(product.getSku())
                 && productRepository.existsBySku(request.getSku())) {
@@ -99,14 +100,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteProduct(UUID id) {
         if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Product not found with id: " + id);
         }
         productRepository.deleteById(id);
     }
 
-    private Product findProductOrThrow(Long id) {
+    private Product findProductOrThrow(UUID id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }

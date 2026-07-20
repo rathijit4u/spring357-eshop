@@ -3,17 +3,18 @@ package com.mourathi.dto;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Builder
 public class OrderItemResponse {
     private Long id;
-    private Long productId;
+    private UUID productId;
     private String productName;
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal subtotal;
 
-    public OrderItemResponse(Long id, Long productId, String productName, Integer quantity, BigDecimal unitPrice, BigDecimal subtotal) {
+    public OrderItemResponse(Long id, UUID productId, String productName, Integer quantity, BigDecimal unitPrice, BigDecimal subtotal) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
@@ -26,7 +27,7 @@ public class OrderItemResponse {
         return id;
     }
 
-    public Long getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 

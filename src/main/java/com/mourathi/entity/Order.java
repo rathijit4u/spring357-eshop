@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "orders")
 @Getter
 @Setter
@@ -55,6 +60,14 @@ public class Order {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column
+    private String updatedBy;
 
     public void calculateTotal() {
         this.totalAmount = items.stream()

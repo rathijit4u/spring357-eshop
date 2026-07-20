@@ -1,0 +1,26 @@
+info:
+  name: Register User
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/auth/register"
+  body:
+    type: json
+    data: |2-
+        {
+          "firstName": "Emily",
+          "lastName": "Davis",
+          "username": "emilyd_test",
+          "password": "MySecretWord321",
+          "email": "emily.davis@example.com",
+          "phone": "555-901-4455"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

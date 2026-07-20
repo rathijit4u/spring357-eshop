@@ -59,6 +59,7 @@ public class AuthController {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
         userService.save(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User registered successfully"));

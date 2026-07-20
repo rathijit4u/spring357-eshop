@@ -4,10 +4,11 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 public class ProductResponse {
-    private Long id;
+    private UUID id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -17,7 +18,7 @@ public class ProductResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ProductResponse(Long id, String name, String description, BigDecimal price, Integer stockQuantity, String category, String sku, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ProductResponse(UUID id, String name, String description, BigDecimal price, Integer stockQuantity, String category, String sku, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,7 +30,7 @@ public class ProductResponse {
         this.updatedAt = updatedAt;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

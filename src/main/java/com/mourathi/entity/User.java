@@ -6,6 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
@@ -54,13 +59,6 @@ public class User {
     @Column(nullable = false)
     private UserStatus status = UserStatus.ACTIVE;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -68,4 +66,21 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column
+    private String updatedBy;
+
+
 }

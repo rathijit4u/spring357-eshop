@@ -12,10 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
@@ -45,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable UUID id) {
         return ResponseEntity.ok(ApiResponse.success(productService.getProductById(id)));
     }
 
@@ -75,14 +74,14 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody ProductRequest request) {
         return ResponseEntity.ok(
                 ApiResponse.success("Product updated successfully", productService.updateProduct(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable UUID id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok(ApiResponse.success("Product deleted successfully", null));
     }
