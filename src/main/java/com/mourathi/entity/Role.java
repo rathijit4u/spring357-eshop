@@ -1,0 +1,18 @@
+package com.mourathi.entity;
+
+public enum Role {
+
+    ROLE_CUSTOMER,
+
+    ROLE_ADMIN,
+
+    ROLE_PRODUCT_MANAGER,
+
+    ROLE_INVENTORY_MANAGER,
+
+    ROLE_ORDER_MANAGER,
+
+    ROLE_SUPPORT_AGENT,
+
+    ROLE_FINANCE_MANAGER
+}

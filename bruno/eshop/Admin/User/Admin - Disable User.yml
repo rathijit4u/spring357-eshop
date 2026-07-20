@@ -1,0 +1,18 @@
+info:
+  name: Admin - Disable User
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/admin/users/5/disable"
+  headers:
+    - name: X-TEST-ID
+      value: SP27_Disable_User_Test_1
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

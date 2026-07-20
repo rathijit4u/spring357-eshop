@@ -1,15 +1,19 @@
 package com.mourathi.controller;
 
 import com.mourathi.dto.ApiResponse;
+import com.mourathi.dto.PageResponse;
 import com.mourathi.dto.ProductRequest;
 import com.mourathi.dto.ProductResponse;
 import com.mourathi.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +50,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
-        return ResponseEntity.ok(ApiResponse.success(productService.getAllProducts()));
+    public ResponseEntity<PageResponse<ProductResponse>> getAllProducts(Pageable pageable) {
+        Page<ProductResponse> productResponses = productService.getAllProducts(pageable);
+        PageResponse<ProductResponse> response = new PageResponse<>(true, productResponses);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/category/{category}")

@@ -1,0 +1,28 @@
+info:
+  name: Add Order
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/orders"
+  body:
+    type: json
+    data: |2-
+       {
+          "shippingAddress": "123 MG Road, Bangalore, Karnataka, India",
+          "userId": 2,
+          "items": [
+            {
+              "productId": 5,
+              "quantity": 5
+            }
+          ]
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

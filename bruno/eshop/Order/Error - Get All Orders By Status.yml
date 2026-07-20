@@ -1,0 +1,15 @@
+info:
+  name: Error - Get All Orders By Status
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{base_url}}/api/orders/status/PENDING1"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

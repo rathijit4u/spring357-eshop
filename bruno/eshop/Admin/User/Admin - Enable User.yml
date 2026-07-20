@@ -1,0 +1,18 @@
+info:
+  name: Admin - Enable User
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: "{{base_url}}/api/admin/users/5/enable"
+  headers:
+    - name: X-TEST-ID
+      value: SP27_Enable_User_Test_1
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

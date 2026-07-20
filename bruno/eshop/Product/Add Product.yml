@@ -1,0 +1,25 @@
+info:
+  name: Add Product
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/products"
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Mechanical Gaming Keyboard",
+          "price": 4999.00,
+          "stockQuantity": 75,
+          "sku": "ELEC-KBD-002",
+          "category": "Electronics"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

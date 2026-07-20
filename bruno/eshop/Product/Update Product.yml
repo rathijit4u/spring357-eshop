@@ -1,0 +1,25 @@
+info:
+  name: Update Product
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{base_url}}/api/products/1"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Wireless Bluetooth Headphones",
+          "price": 2500.00,
+          "stockQuantity": 180,
+          "sku": "ELEC-WBH-002",
+        "category": "Electronics"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

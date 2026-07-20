@@ -1,0 +1,25 @@
+info:
+  name: Get All Products
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/products?page=0&size=5&sort=price,desc"
+  params:
+    - name: page
+      value: "0"
+      type: query
+    - name: size
+      value: "5"
+      type: query
+    - name: sort
+      value: price,desc
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

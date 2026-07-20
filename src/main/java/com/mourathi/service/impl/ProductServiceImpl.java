@@ -8,6 +8,8 @@ import com.mourathi.exception.ResourceNotFoundException;
 import com.mourathi.repository.ProductRepository;
 import com.mourathi.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductResponse> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable).map(this::mapToResponse);
     }
 
     @Override

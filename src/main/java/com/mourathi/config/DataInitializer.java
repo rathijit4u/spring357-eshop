@@ -1,6 +1,9 @@
 package com.mourathi.config;
 
+import com.mourathi.entity.Role;
+import com.mourathi.entity.RoleEntity;
 import com.mourathi.entity.User;
+import com.mourathi.repository.RoleRepository;
 import com.mourathi.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +13,15 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 
 @Component
 public class DataInitializer implements ApplicationRunner {
     private final static Logger log = LoggerFactory
             .getLogger(DataInitializer.class);
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${app.admin.firstname}")
@@ -33,8 +39,9 @@ public class DataInitializer implements ApplicationRunner {
     @Value("${app.admin.email}")
     private String adminEmail;
 
-    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -45,6 +52,13 @@ public class DataInitializer implements ApplicationRunner {
             return;
         }
 
+        RoleEntity adminRole = roleRepository.findByName(Role.ROLE_ADMIN)
+                        .orElseGet(() -> {
+                            RoleEntity role = new RoleEntity();
+                            role.setName(Role.ROLE_ADMIN);
+                            return roleRepository.save(role);
+                        });
+
         User admin = new User();
         admin.setFirstName(adminFirstName);
         admin.setLastName(adminLastName);
@@ -52,6 +66,7 @@ public class DataInitializer implements ApplicationRunner {
         admin.setPassword(passwordEncoder.encode(adminPassword));
         admin.setEmail(adminEmail);
 
+        admin.setRoles(Set.of(adminRole));
 
         userRepository.save(admin);
         log.info("Admin user '{}' created", adminUsername);
