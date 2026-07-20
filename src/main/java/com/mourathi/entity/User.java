@@ -35,6 +35,9 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
     @Email
     @NotBlank
     @Column(nullable = false, unique = true)
@@ -43,9 +46,11 @@ public class User {
     @Column
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<Order> orders = new ArrayList<>();
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private UserStatus status = UserStatus.ACTIVE;
 
     @CreationTimestamp
     @Column(updatable = false)
