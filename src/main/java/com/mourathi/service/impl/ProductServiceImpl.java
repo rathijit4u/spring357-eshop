@@ -1,6 +1,7 @@
 package com.mourathi.service.impl;
 
-import com.mourathi.dto.ProductDto;
+import com.mourathi.dto.ProductRequest;
+import com.mourathi.dto.ProductResponse;
 import com.mourathi.entity.Product;
 import com.mourathi.exception.DuplicateResourceException;
 import com.mourathi.exception.ResourceNotFoundException;
@@ -21,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public ProductDto.Response createProduct(ProductDto.Request request) {
+    public ProductResponse createProduct(ProductRequest request) {
         if (request.getSku() != null && productRepository.existsBySku(request.getSku())) {
             throw new DuplicateResourceException("Product with SKU '" + request.getSku() + "' already exists");
         }
@@ -38,13 +39,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public ProductDto.Response getProductById(Long id) {
+    public ProductResponse getProductById(Long id) {
         return mapToResponse(findProductOrThrow(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductDto.Response> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -52,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductDto.Response> getProductsByCategory(String category) {
+    public List<ProductResponse> getProductsByCategory(String category) {
         return productRepository.findByCategory(category).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -60,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductDto.Response> searchProducts(String keyword) {
+    public List<ProductResponse> searchProducts(String keyword) {
         return productRepository.searchByKeyword(keyword).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -68,14 +69,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductDto.Response> getInStockProducts() {
+    public List<ProductResponse> getInStockProducts() {
         return productRepository.findAllInStock().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProductDto.Response updateProduct(Long id, ProductDto.Request request) {
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
         Product product = findProductOrThrow(id);
         if (request.getSku() != null && !request.getSku().equals(product.getSku())
                 && productRepository.existsBySku(request.getSku())) {
@@ -103,8 +104,8 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
-    public ProductDto.Response mapToResponse(Product product) {
-        return ProductDto.Response.builder()
+    public ProductResponse mapToResponse(Product product) {
+        return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())

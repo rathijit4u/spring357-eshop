@@ -1,15 +1,19 @@
 package com.mourathi.service.impl;
 
+import com.mourathi.dto.AdminUserResponse;
 import com.mourathi.dto.UserDto;
 import com.mourathi.entity.User;
+import com.mourathi.entity.UserStatus;
 import com.mourathi.exception.DuplicateResourceException;
 import com.mourathi.exception.ResourceNotFoundException;
 import com.mourathi.repository.UserRepository;
 import com.mourathi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,14 @@ public class UserServiceImpl implements UserService {
                 .phone(request.getPhone())
                 .build();
         return mapToResponse(userRepository.save(user));
+    }
+
+    @Override
+    public void save(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new DuplicateResourceException("User with email '" + user.getEmail() + "' already exists");
+        }
+        userRepository.save(user);
     }
 
     @Override
@@ -77,6 +89,36 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void disable(Long id) {
+        User existing = userRepository.getReferenceById(id);
+        if (existing.getStatus() == UserStatus.ACTIVE) {
+            existing.setStatus(UserStatus.SUSPENDED);
+            userRepository.save(existing);
+        }
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void enable(Long id) {
+        User existing = userRepository.getReferenceById(id);
+        if (existing.getStatus() == UserStatus.SUSPENDED) {
+            existing.setStatus(UserStatus.ACTIVE);
+            userRepository.save(existing);
+        }
+    }
+
+    public List<AdminUserResponse> getAdminUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(AdminUserResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    public AdminUserResponse getAdminUser(Long id) {
+        return AdminUserResponse.from(userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found")));
+    }
+
     private User findUserOrThrow(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
@@ -93,4 +135,6 @@ public class UserServiceImpl implements UserService {
                 .updatedAt(user.getUpdatedAt())
                 .build();
     }
+
+
 }

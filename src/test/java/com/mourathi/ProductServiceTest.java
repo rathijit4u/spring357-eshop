@@ -1,9 +1,8 @@
 package com.mourathi;
 
-import com.mourathi.dto.ProductDto;
+import com.mourathi.dto.ProductResponse;
 import com.mourathi.entity.Product;
 import com.mourathi.repository.ProductRepository;
-import com.mourathi.service.UserService;
 import com.mourathi.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +41,7 @@ public class ProductServiceTest {
                 .build();
 
         when(productRepository.findAll()).thenReturn(List.of(product));
-        List<ProductDto.Response> products = productService.getAllProducts();
+        List<ProductResponse> products = productService.getAllProducts();
         assertEquals(1, products.size());
     }
 }

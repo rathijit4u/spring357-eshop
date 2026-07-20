@@ -1,6 +1,6 @@
 package com.mourathi.service.impl;
 
-import com.mourathi.dto.OrderDto;
+import com.mourathi.dto.*;
 import com.mourathi.entity.Order;
 import com.mourathi.entity.OrderItem;
 import com.mourathi.entity.Product;
@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
 
     @Override
-    public OrderDto.Response createOrder(OrderDto.Request request) {
+    public OrderResponse createOrder(OrderRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.getUserId()));
 
@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public OrderDto.Response getOrderById(Long id) {
+    public OrderResponse getOrderById(Long id) {
         Order order = orderRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
         return mapToResponse(order);
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDto.Response> getAllOrders() {
+    public List<OrderResponse> getAllOrders() {
         return orderRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDto.Response> getOrdersByUser(Long userId) {
+    public List<OrderResponse> getOrdersByUser(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User not found with id: " + userId);
         }
@@ -95,14 +95,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDto.Response> getOrdersByStatus(Order.Status status) {
+    public List<OrderResponse> getOrdersByStatus(Order.Status status) {
         return orderRepository.findByStatus(status).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrderDto.Response updateOrderStatus(Long id, OrderDto.StatusUpdateRequest request) {
+    public OrderResponse updateOrderStatus(Long id, OrderUpdateRequest request) {
         Order order = findOrderOrThrow(id);
         if (order.getStatus() == Order.Status.CANCELLED) {
             throw new BadRequestException("Cannot update status of a cancelled order");
@@ -148,9 +148,9 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
     }
 
-    private OrderDto.Response mapToResponse(Order order) {
-        List<OrderDto.ItemResponse> itemResponses = order.getItems().stream()
-                .map(item -> OrderDto.ItemResponse.builder()
+    private OrderResponse mapToResponse(Order order) {
+        List<OrderItemResponse> itemResponses = order.getItems().stream()
+                .map(item -> OrderItemResponse.builder()
                         .id(item.getId())
                         .productId(item.getProduct().getId())
                         .productName(item.getProduct().getName())
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
                         .build())
                 .collect(Collectors.toList());
 
-        return OrderDto.Response.builder()
+        return OrderResponse.builder()
                 .id(order.getId())
                 .userId(order.getUser().getId())
                 .userName(order.getUser().getFirstName() + " " + order.getUser().getLastName())

@@ -1,16 +1,17 @@
 package com.mourathi.service;
 
-import com.mourathi.dto.ProductDto;
+import com.mourathi.dto.ProductRequest;
+import com.mourathi.dto.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductDto.Response createProduct(ProductDto.Request request);
-    ProductDto.Response getProductById(Long id);
-    List<ProductDto.Response> getAllProducts();
-    List<ProductDto.Response> getProductsByCategory(String category);
-    List<ProductDto.Response> searchProducts(String keyword);
-    List<ProductDto.Response> getInStockProducts();
-    ProductDto.Response updateProduct(Long id, ProductDto.Request request);
+    ProductResponse createProduct(ProductRequest request);
+    ProductResponse getProductById(Long id);
+    List<ProductResponse> getAllProducts();
+    List<ProductResponse> getProductsByCategory(String category);
+    List<ProductResponse> searchProducts(String keyword);
+    List<ProductResponse> getInStockProducts();
+    ProductResponse updateProduct(Long id, ProductRequest request);
     void deleteProduct(Long id);
 }
