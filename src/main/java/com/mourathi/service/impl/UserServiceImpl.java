@@ -2,6 +2,7 @@ package com.mourathi.service.impl;
 
 import com.mourathi.dto.AdminUserResponse;
 import com.mourathi.dto.UserDto;
+import com.mourathi.dto.UserResponse;
 import com.mourathi.entity.User;
 import com.mourathi.entity.UserStatus;
 import com.mourathi.exception.DuplicateResourceException;
@@ -50,6 +51,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDto.Response getUserById(Long id) {
         return mapToResponse(findUserOrThrow(id));
+    }
+
+    @Override
+    public UserDto.Response getUserByUserName(String userName) {
+        User user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new ResourceNotFoundException("No user with username '%s' found".formatted(userName)));
+        return mapToResponse(user);
     }
 
     @Override
@@ -136,5 +144,13 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+//    private UserResponse mapToUserResponse(User user) {
+//        return UserResponse.builder()
+//                .id(user.getId())
+//                .name(user.getFirstName() + " " + user.getLastName())
+//                .email(user.getEmail())
+//                .username(user.getUsername())
+//                .build();
+//    }
 
 }

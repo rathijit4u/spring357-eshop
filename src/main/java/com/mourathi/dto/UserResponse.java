@@ -1,6 +1,7 @@
 package com.mourathi.dto;
 
 import com.mourathi.entity.User;
+import lombok.Builder;
 
 
 public class UserResponse {

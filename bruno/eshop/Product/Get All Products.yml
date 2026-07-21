@@ -5,13 +5,13 @@ info:
 
 http:
   method: GET
-  url: "{{base_url}}/api/products?page=0&size=5&sort=price,desc"
+  url: "{{base_url}}/api/products?page=0&size=20&sort=price,desc"
   params:
     - name: page
       value: "0"
       type: query
     - name: size
-      value: "5"
+      value: "20"
       type: query
     - name: sort
       value: price,desc

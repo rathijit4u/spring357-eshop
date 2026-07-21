@@ -2,11 +2,13 @@ package com.mourathi.exception;
 
 import com.mourathi.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +21,13 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNotFound(HttpRequestMethodNotSupportedException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFound(AuthorizationDeniedException ex) {
