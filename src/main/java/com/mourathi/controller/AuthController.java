@@ -3,7 +3,10 @@ package com.mourathi.controller;
 
 import com.mourathi.dto.LoginRequest;
 import com.mourathi.dto.RegisterRequest;
+import com.mourathi.entity.Role;
+import com.mourathi.entity.RoleEntity;
 import com.mourathi.entity.User;
+import com.mourathi.repository.RoleRepository;
 import com.mourathi.repository.UserRepository;
 import com.mourathi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,19 +28,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
+    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthController(UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder,
+    public AuthController(RoleRepository roleRepository, UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder,
                           AuthenticationManager authenticationManager) {
+        this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -53,6 +58,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Email already in use"));
         }
 
+        RoleEntity customerRole = roleRepository.findByName(Role.ROLE_CUSTOMER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_CUSTOMER);
+                    return roleRepository.save(role);
+                });
+
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -60,6 +72,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
+        user.setRoles(Set.of(customerRole));
         userService.save(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User registered successfully"));

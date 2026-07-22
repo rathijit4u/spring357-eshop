@@ -1,0 +1,24 @@
+info:
+  name: Remove Roles from User
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{base_url}}/api/users/10/roles"
+  body:
+    type: json
+    data: |-
+      {
+        "roles": [
+          "ROLE_CUSTOMER"
+        ],
+        "operationType": "REMOVE"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

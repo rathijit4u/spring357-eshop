@@ -1,11 +1,11 @@
 info:
-  name: Get Cart By User
+  name: Delete User
   type: http
-  seq: 4
+  seq: 9
 
 http:
-  method: GET
-  url: "{{base_url}}/api/carts/users/5"
+  method: DELETE
+  url: "{{base_url}}/api/users/7"
   auth: inherit
 
 settings:

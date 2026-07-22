@@ -10,15 +10,15 @@ http:
     type: json
     data: |-
       {
-        "userId": 4,
+        "userId": 5,
         "items": [
           {
             "productId": "33b17ece-121b-462d-9435-eef3f10148f4",
-            "quantity": 10
+            "quantity": 3
           },
           {
             "productId": "ee479c7d-3352-4081-bb6d-654938a98652",
-            "quantity": 10
+            "quantity": 5
           }
         ]
       }

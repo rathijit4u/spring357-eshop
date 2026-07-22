@@ -21,14 +21,13 @@ import java.util.UUID;
 @Slf4j
 public class CartController {
     private final CartService cartService;
-    private final UserService userService;
 
-    public CartController(CartService cartService, UserService userService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-        this.userService = userService;
     }
 
     @PostMapping
+    @PreAuthorize("@rolePermissionEvaluator.hasRole(authentication, 'ROLE_CUSTOMER')")
     public ResponseEntity<CartResponse> createCart(@RequestBody CartRequest cartRequest, UriComponentsBuilder uriComponentsBuilder) {
         CartResponse cartResponse = cartService.createCart(cartRequest);
         URI location = uriComponentsBuilder
@@ -56,14 +55,10 @@ public class CartController {
     }
 
     @GetMapping("/users/{userId}")
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
     public ResponseEntity<ApiResponse<CartResponse>> getCartByUser(@PathVariable Long userId,
             Authentication authentication) {
         CartResponse cartResponse = cartService.getCartByUser(userId);
-        Long currentUserId = userService.getUserByUserName(authentication.getName()).getId();
-        log.info(authentication.getPrincipal().toString());
-        if (cartResponse.getUserId().equals(currentUserId))
-            return ResponseEntity.ok(ApiResponse.success(cartResponse));
-        else
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(ApiResponse.success(cartResponse));
     }
 }

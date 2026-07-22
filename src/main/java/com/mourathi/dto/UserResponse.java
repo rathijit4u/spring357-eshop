@@ -1,7 +1,6 @@
 package com.mourathi.dto;
 
 import com.mourathi.entity.User;
-import lombok.Builder;
 
 
 public class UserResponse {
@@ -10,12 +9,14 @@ public class UserResponse {
     private final String name;
     private final String username;
     private final String email;
+    private final String phone;
 
     protected UserResponse(User user) {
         this.id       = user.getId();
         this.name     = user.getFirstName() + " " + user.getLastName();
         this.username = user.getUsername();
         this.email    = user.getEmail();
+        this.phone = user.getPhone();
     }
 
     public static UserResponse from(User user) {
@@ -37,4 +38,6 @@ public class UserResponse {
     public String getEmail() {
         return email;
     }
+
+    public String getPhone() { return phone; }
 }

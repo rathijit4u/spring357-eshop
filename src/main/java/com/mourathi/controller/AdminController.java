@@ -1,7 +1,9 @@
 package com.mourathi.controller;
 
 import com.mourathi.dto.AdminUserResponse;
+import com.mourathi.dto.ApiResponse;
 import com.mourathi.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,9 @@ public class AdminController {
     }
 
     @GetMapping
-    public List<AdminUserResponse>  getUsers() {
-        return userService.getAdminUsers();
+    public ResponseEntity<ApiResponse<List<AdminUserResponse>>> getUsers() {
+        List<AdminUserResponse> responses = userService.getAdminUsers();
+        return ResponseEntity.ok(ApiResponse.success(responses));
     }
 
     @GetMapping("/{id}")
@@ -37,8 +40,4 @@ public class AdminController {
         userService.enable(id);
     }
 
-//    @PostMapping("/{id}/role/{role}")
-//    public void assignRoleToUser(@PathVariable Long id, String role) {
-//        userService.addRole(id, role);
-//    }
 }

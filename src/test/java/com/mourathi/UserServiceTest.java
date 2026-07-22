@@ -1,6 +1,6 @@
 package com.mourathi;
 
-import com.mourathi.dto.UserDto;
+import com.mourathi.dto.UserResponse;
 import com.mourathi.repository.UserRepository;
 import com.mourathi.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class UserServiceTest {
                 .build();
         when(userRepository.findAll()).thenReturn(List.of(user));
 
-        List<UserDto.Response> users = userService.getAllUsers();
+        List<UserResponse> users = userService.getAllUsers();
 
         assertEquals(1, users.size());
     }

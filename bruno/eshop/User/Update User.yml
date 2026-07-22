@@ -1,11 +1,11 @@
 info:
-  name: Register User
+  name: Update User
   type: http
-  seq: 1
+  seq: 4
 
 http:
-  method: POST
-  url: "{{base_url}}/api/auth/register"
+  method: PUT
+  url: "{{base_url}}/api/users/7"
   body:
     type: json
     data: |2-
@@ -13,9 +13,8 @@ http:
           "firstName": "Peter",
           "lastName": "Parker",
           "username": "pparker_web",
-          "password": "WebShooter@2026",
           "email": "peter.parker@dailybugle.com",
-          "phone": "555-019-2831"
+          "phone": "555-019-8888"
         }
   auth: inherit
 
