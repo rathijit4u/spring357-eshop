@@ -10,12 +10,12 @@ http:
     type: json
     data: |2-
         {
-          "firstName": "Tony",
-          "lastName": "Stark",
-          "username": "tstark_boss",
-          "password": "IronMan@2026",
-          "email": "tony.stark@starkindustries.com",
-          "phone": "555-893-1000"
+          "firstName": "Stephen",
+          "lastName": "Strange",
+          "username": "sstrange_md",
+          "password": "Sanctum@2026",
+          "email": "stephen.strange@kamar-taj.org",
+          "phone": "555-909-1087"
         }
   auth: inherit
 

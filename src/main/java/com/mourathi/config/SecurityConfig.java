@@ -1,5 +1,8 @@
 package com.mourathi.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mourathi.filter.CustomAuthenticationEntryPoint;
+import com.mourathi.filter.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,20 +56,30 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> {})
-        .csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           RequestLoggingFilter loggingFilter,
+                                           CustomAuthenticationEntryPoint customAuthenticationEntryPoint
+                                        ) throws Exception {
+
+        http.addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(cors -> {})
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register"
-                                , "/api/auth/login").permitAll()
+                                , "/api/auth/login", "/error").permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
-                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
+                        .logoutSuccessHandler(
+                                (req,
+                                 res,
+                                 auth) -> res.setStatus(200)
+                        )
                         .permitAll()
-                );
+                ).exceptionHandling(exception -> exception
+                .authenticationEntryPoint(customAuthenticationEntryPoint));
 
         return http.build();
     }
