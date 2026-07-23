@@ -17,3 +17,7 @@ POSTGRES_PASSWORD=<>
 ### Swagger UI Endpoint
 [Swagger UI](http://<server_url>:<server_port>/swagger-ui/index.html)
 
+### Docker
+```azure
+docker compose up -d --build
+```

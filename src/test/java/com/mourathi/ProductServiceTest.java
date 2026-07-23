@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -29,7 +30,7 @@ public class ProductServiceTest {
     @Test
     public void testGetAllProducts() {
         Product product = Product.builder()
-                .id(1L)
+                .id(UUID.randomUUID())
                 .sku("xyz")
                 .price(BigDecimal.valueOf(100.00))
                 .name("Pen")

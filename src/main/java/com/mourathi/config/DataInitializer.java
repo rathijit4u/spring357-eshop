@@ -59,6 +59,48 @@ public class DataInitializer implements ApplicationRunner {
                             return roleRepository.save(role);
                         });
 
+        RoleEntity customerRole = roleRepository.findByName(Role.ROLE_CUSTOMER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_CUSTOMER);
+                    return roleRepository.save(role);
+                });
+
+        RoleEntity productManagerRole = roleRepository.findByName(Role.ROLE_PRODUCT_MANAGER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_PRODUCT_MANAGER);
+                    return roleRepository.save(role);
+                });
+
+        RoleEntity financeManagerRole = roleRepository.findByName(Role.ROLE_FINANCE_MANAGER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_FINANCE_MANAGER);
+                    return roleRepository.save(role);
+                });
+
+        RoleEntity orderManagerRole = roleRepository.findByName(Role.ROLE_ORDER_MANAGER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_ORDER_MANAGER);
+                    return roleRepository.save(role);
+                });
+
+        RoleEntity inventoryManagerRole = roleRepository.findByName(Role.ROLE_INVENTORY_MANAGER)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_INVENTORY_MANAGER);
+                    return roleRepository.save(role);
+                });
+
+        RoleEntity supportAgentRole = roleRepository.findByName(Role.ROLE_SUPPORT_AGENT)
+                .orElseGet(() -> {
+                    RoleEntity role = new RoleEntity();
+                    role.setName(Role.ROLE_SUPPORT_AGENT);
+                    return roleRepository.save(role);
+                });
+
         User admin = new User();
         admin.setFirstName(adminFirstName);
         admin.setLastName(adminLastName);

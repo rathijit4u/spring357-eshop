@@ -61,6 +61,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<ProductResponse> getInStockProducts(Pageable pageable) {
+        return productRepository.findAllInStock(pageable)
+                .map(this::mapToResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<ProductResponse> getProductsByCategory(String category) {
         return productRepository.findByCategory(category).stream()
                 .map(this::mapToResponse)
@@ -71,14 +78,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     public List<ProductResponse> searchProducts(String keyword) {
         return productRepository.searchByKeyword(keyword).stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<ProductResponse> getInStockProducts() {
-        return productRepository.findAllInStock().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }

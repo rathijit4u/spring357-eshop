@@ -57,6 +57,13 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/in-stock")
+    public ResponseEntity<PageResponse<ProductResponse>> getInStockProducts(Pageable pageable) {
+        Page<ProductResponse> productResponses = productService.getInStockProducts(pageable);
+        PageResponse<ProductResponse> response = new PageResponse<>(true, productResponses);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getByCategory(
             @PathVariable String category) {
@@ -67,11 +74,6 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<ProductResponse>>> searchProducts(
             @RequestParam String keyword) {
         return ResponseEntity.ok(ApiResponse.success(productService.searchProducts(keyword)));
-    }
-
-    @GetMapping("/in-stock")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getInStockProducts() {
-        return ResponseEntity.ok(ApiResponse.success(productService.getInStockProducts()));
     }
 
     @PutMapping("/{id}")
