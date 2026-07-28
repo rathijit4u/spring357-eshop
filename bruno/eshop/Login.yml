@@ -15,8 +15,8 @@ http:
     type: json
     data: |-
       {
-        "username": "tstark_boss",
-        "password": "IronMan@2026"
+        "username": "bbanner_sci",
+        "password": "GammaRay@2026"
       }
   auth: inherit
 

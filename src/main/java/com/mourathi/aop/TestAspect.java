@@ -1,9 +1,13 @@
 package com.mourathi.aop;
 
+import com.mourathi.config.security.CustomUserDetails;
 import com.mourathi.exception.DuplicateResourceException;
 import net.changeshield.aop.TestCoverageAspect;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,7 +18,7 @@ import java.util.Set;
 @Component
 public class TestAspect extends TestCoverageAspect {
 
-    @Pointcut("within(com.example.crud..*)")
+    @Pointcut("within(com.mourathi..*) && !within(com.mourathi.filter..*) && !within(com.mourathi.config..*)")
     public void applicationPackagePointcut() {}
 
     @Override
@@ -34,6 +38,16 @@ public class TestAspect extends TestCoverageAspect {
 
     @Override
     public Set<String> getUserRoles() {
-        return Set.of();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken) {
+            return Set.of();
+        }
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        return Set.of(customUserDetails.getUsername());
+//        return authentication.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.toSet());
     }
 }

@@ -13,6 +13,7 @@ import com.mourathi.repository.RoleRepository;
 import com.mourathi.repository.UserRepository;
 import com.mourathi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Override
+    @PreAuthorize("hasAuthority('USER_CREATE')")
     public UserResponse createUser(UserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateResourceException("User with email '" + request.getEmail() + "' already exists");

@@ -20,7 +20,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@PreAuthorize("@rolePermissionEvaluator.hasRole(authentication, 'ROLE_CUSTOMER')")
 public class ProductController {
 
     private final ProductService productService;

@@ -2,11 +2,9 @@ package com.mourathi.controller;
 
 import com.mourathi.dto.*;
 import com.mourathi.service.CartService;
-import com.mourathi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -27,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping
-    @PreAuthorize("@rolePermissionEvaluator.hasRole(authentication, 'ROLE_CUSTOMER')")
+    @PreAuthorize("hasAuthority('CART_CREATE')")
     public ResponseEntity<CartResponse> createCart(@RequestBody CartRequest cartRequest, UriComponentsBuilder uriComponentsBuilder) {
         CartResponse cartResponse = cartService.createCart(cartRequest);
         URI location = uriComponentsBuilder
@@ -40,15 +38,16 @@ public class CartController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('CART_VIEW_ALL')")
     public ResponseEntity<PageResponse<CartResponse>> getAllCarts(Pageable pageable) {
+
         Page<CartResponse> cartResponses = cartService.getCarts(pageable);
         PageResponse<CartResponse> response = new PageResponse<>(true, cartResponses);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{cartId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('CART_VIEW_ALL')")
     public ResponseEntity<ApiResponse<CartResponse>> getCart(@PathVariable UUID cartId) {
         CartResponse cartResponse = cartService.getCartById(cartId);
         return ResponseEntity.ok(ApiResponse.success(cartResponse));
@@ -56,8 +55,7 @@ public class CartController {
 
     @GetMapping("/users/{userId}")
     @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
-    public ResponseEntity<ApiResponse<CartResponse>> getCartByUser(@PathVariable Long userId,
-            Authentication authentication) {
+    public ResponseEntity<ApiResponse<CartResponse>> getCartByUser(@PathVariable Long userId) {
         CartResponse cartResponse = cartService.getCartByUser(userId);
         return ResponseEntity.ok(ApiResponse.success(cartResponse));
     }

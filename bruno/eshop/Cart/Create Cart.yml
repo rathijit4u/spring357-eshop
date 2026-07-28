@@ -10,14 +10,14 @@ http:
     type: json
     data: |-
       {
-        "userId": 5,
+        "userId": 2,
         "items": [
           {
-            "productId": "33b17ece-121b-462d-9435-eef3f10148f4",
+            "productId": "b8f734da-d0dd-42bf-8840-c5a9ea894018",
             "quantity": 3
           },
           {
-            "productId": "ee479c7d-3352-4081-bb6d-654938a98652",
+            "productId": "5c7e5c51-e08e-4c30-81f8-b5fe3c2259a1",
             "quantity": 5
           }
         ]

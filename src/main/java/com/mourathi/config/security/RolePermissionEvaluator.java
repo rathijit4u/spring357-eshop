@@ -1,10 +1,8 @@
-package com.mourathi.config;
+package com.mourathi.config.security;
 
 import com.mourathi.entity.User;
-import com.mourathi.exception.ResourceNotFoundException;
 import com.mourathi.repository.UserRepository;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component

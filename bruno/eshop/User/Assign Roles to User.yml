@@ -5,13 +5,13 @@ info:
 
 http:
   method: POST
-  url: "{{base_url}}/api/users/9/roles"
+  url: "{{base_url}}/api/users/11/roles"
   body:
     type: json
     data: |-
       {
         "roles": [
-          "ROLE_FINANCE_MANAGER"
+          "ROLE_CUSTOMER"
         ],
         "operationType": "ADD"
       }

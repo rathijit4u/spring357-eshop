@@ -1,6 +1,5 @@
-package com.mourathi.config;
+package com.mourathi.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mourathi.filter.CustomAuthenticationEntryPoint;
 import com.mourathi.filter.RequestLoggingFilter;
 import org.springframework.context.annotation.Bean;

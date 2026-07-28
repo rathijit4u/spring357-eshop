@@ -15,4 +15,9 @@ public class RoleEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private Role name;
+
+    public RoleEntity() {
+    }
+
+    public RoleEntity(Role name) {}
 }
