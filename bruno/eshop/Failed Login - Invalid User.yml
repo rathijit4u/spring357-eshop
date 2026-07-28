@@ -1,0 +1,27 @@
+info:
+  name: Failed Login - Invalid User
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/auth/login"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: X-TEST-ID
+      value: eshop_login_test_1
+  body:
+    type: json
+    data: |2-
+        {
+          "username": "bbanner_sci1",
+          "password": "GammaRay@2026"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

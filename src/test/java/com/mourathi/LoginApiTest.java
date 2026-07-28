@@ -77,7 +77,7 @@ public class LoginApiTest {
     }
 
     @Test
-    @DisplayName("Unknown username returns non-200 status")
+    @DisplayName("Unknown username returns 401 status")
     void loginWithUnknownUsername_returnsFailure(TestInfo testInfo) {
         String requestBody = """
                 {
@@ -97,7 +97,7 @@ public class LoginApiTest {
     }
 
     @Test
-    @DisplayName("Missing password field returns non-200 status")
+    @DisplayName("Missing password field returns 400 status")
     void loginWithMissingPassword_returnsFailure(TestInfo testInfo) {
         String requestBody = """
                 {

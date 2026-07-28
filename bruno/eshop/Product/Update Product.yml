@@ -5,16 +5,17 @@ info:
 
 http:
   method: PUT
-  url: "{{base_url}}/api/products/b8f734da-d0dd-42bf-8840-c5a9ea894018"
+  url: "{{base_url}}/api/products/db30df04-b34a-4e84-9ecd-81dfa29e4b88"
   body:
     type: json
     data: |-
       {
-        "name": "Wireless Bluetooth Headphones",
-          "price": 2500.00,
-          "stockQuantity": 180,
-          "sku": "ELEC-WBH-002",
-        "category": "Electronics"
+        "name": "Updated Name",
+        "description": "Updated description",
+        "price": 59.99,
+        "category": "Misc",
+        "stockQuantity": 30,
+        "sku": "SKU-UPDATED"
       }
   auth: inherit
 
