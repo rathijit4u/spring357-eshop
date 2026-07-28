@@ -34,6 +34,13 @@ public class SecurityConfig {
             "/swagger-ui.html"
     };
 
+    private static final String[] URL_WHITELIST = {
+            "/api/auth/register",
+            "/api/auth/login",
+            "/api/auth/logout",
+            "/error"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -64,20 +71,12 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register"
-                                , "/api/auth/login", "/error").permitAll()
+                        .requestMatchers(URL_WHITELIST).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
-                        .logoutSuccessHandler(
-                                (req,
-                                 res,
-                                 auth) -> res.setStatus(200)
-                        )
-                        .permitAll()
-                ).exceptionHandling(exception -> exception
+                .exceptionHandling(
+                        exception -> exception
                 .authenticationEntryPoint(customAuthenticationEntryPoint));
 
         return http.build();

@@ -10,6 +10,7 @@ import com.mourathi.repository.UserRepository;
 import com.mourathi.service.CartService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CART_CREATE')")
     public CartResponse createCart(CartRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() ->
@@ -61,16 +63,19 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
     public CartResponse addToCart(UUID id, CartItemRequest request) {
         return null;
     }
 
     @Override
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
     public CartResponse removeFromCart(UUID id, UUID cartItemId) {
         return null;
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CART_VIEW_ALL')")
     public CartResponse getCartById(UUID id) {
         Cart cart =  cartRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Cart Id '%s' not found".formatted(id))
@@ -79,12 +84,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CART_VIEW_ALL')")
     public Page<CartResponse> getCarts(Pageable pageable) {
         return cartRepository.findAll(pageable)
                 .map(this::mapToCartResponse);
     }
 
     @Override
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
     public CartResponse getCartByUser(Long userId) {
         List<Cart> carts = cartRepository.findByUserId(userId);
         if(carts.isEmpty()){
@@ -93,14 +100,15 @@ public class CartServiceImpl implements CartService {
         return mapToCartResponse(carts.getFirst());
     }
 
-
     @Override
+    @PreAuthorize("hasAuthority('CART_VIEW_ALL')")
     public List<CartResponse> getCartsByStatus(CartStatus status) {
         return cartRepository.findByStatus(status)
                 .stream().map(this::mapToCartResponse).collect(Collectors.toList());
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CART_UPDATE')")
     public CartResponse updateOrderStatus(UUID id, CartUpdateRequest request) {
         Cart cart =  cartRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Cart Id '%s' not found".formatted(id))
@@ -110,9 +118,19 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public boolean clearCart(UUID id) {
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
+    public void clearCart(UUID id) {
         cartRepository.deleteById(id);
-        return true;
+    }
+
+    @Override
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #userId)")
+    public void checkOut(UUID id) {
+        Cart cart = cartRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Cart Id '%s' not found".formatted(id))
+        );
+        cart.setStatus(CartStatus.CHECKOUT_STARTED);
+        cartRepository.save(cart);
     }
 
     private CartResponse mapToCartResponse(Cart cart) {

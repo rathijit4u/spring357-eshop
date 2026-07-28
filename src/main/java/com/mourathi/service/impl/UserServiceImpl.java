@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public void save(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new DuplicateResourceException("User with email '" + user.getEmail() + "' already exists");
@@ -58,11 +59,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #id)")
     public UserResponse getUserById(Long id) {
         return mapToResponse(findUserOrThrow(id));
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public UserResponse getUserByUserName(String userName) {
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new ResourceNotFoundException("No user with username '%s' found".formatted(userName)));
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public UserResponse getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
@@ -79,6 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(this::mapToResponse)
@@ -86,6 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public UserResponse updateUser(Long id, UserRequest request) {
         User user = findUserOrThrow(id);
         if (!user.getEmail().equals(request.getEmail()) && userRepository.existsByEmail(request.getEmail())) {
@@ -99,6 +105,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_DELETE')")
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found with id: " + id);
@@ -106,6 +113,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public void disable(Long id) {
         User existing = userRepository.getReferenceById(id);
         if (existing.getStatus() == UserStatus.ACTIVE) {
@@ -114,6 +122,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public void enable(Long id) {
         User existing = userRepository.getReferenceById(id);
         if (existing.getStatus() == UserStatus.SUSPENDED) {
@@ -122,6 +131,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public List<AdminUserResponse> getAdminUsers() {
         return userRepository.findAll()
                 .stream()
@@ -129,12 +139,14 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public AdminUserResponse getAdminUser(Long id) {
         return AdminUserResponse.from(userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_ROLE_ASSIGNEE')")
     public void addRoleToUser(Long id, Set<String> roles) {
         try{
 
@@ -151,6 +163,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER_ROLE_ASSIGNEE')")
     public void removeRoleFromUser(Long id, Set<String> roles) {
         try{
             Set<RoleEntity> roleEntities = roles.stream().distinct()

@@ -62,7 +62,10 @@ services:
       # Redis Variables (Spring Boot default mapping)
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_FOLDER=rathijit4u:spring357-eshop
+      - REDIS_PROJECT_NAME=rathijit4u:spring357-eshop
+      - REDIS_API_TEST_DIR=API_TEST
+      - REDIS_USER_DIR=USER_PROFILE
+      - REDIS_ERROR_DIR=UNKNOWN_ERROR
     depends_on:
       - postgres
       - redis

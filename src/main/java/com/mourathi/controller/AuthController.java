@@ -1,6 +1,7 @@
 package com.mourathi.controller;
 
 
+import com.mourathi.dto.ApiResponse;
 import com.mourathi.dto.LoginRequest;
 import com.mourathi.dto.RegisterRequest;
 import com.mourathi.entity.Role;
@@ -9,6 +10,7 @@ import com.mourathi.entity.User;
 import com.mourathi.repository.RoleRepository;
 import com.mourathi.repository.UserRepository;
 import com.mourathi.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -99,6 +102,20 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid username or password"));
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logout(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication) {
+
+
+        new SecurityContextLogoutHandler()
+                .logout(request, response, authentication);
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Logged out successfully"));
     }
 
 }

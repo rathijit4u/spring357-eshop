@@ -6,6 +6,9 @@ info:
 http:
   method: GET
   url: "{{base_url}}/api/products/search?keyword=chair"
+  headers:
+    - name: X-TEST-ID
+      value: eshop_searchProduct_test_1
   params:
     - name: keyword
       value: chair

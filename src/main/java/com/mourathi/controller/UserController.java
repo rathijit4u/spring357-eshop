@@ -22,7 +22,6 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('USER_CREATE')")
     public ResponseEntity<ApiResponse<UserResponse>> createUser(
             @Valid @RequestBody UserRequest request) {
         UserResponse response = userService.createUser(request);
@@ -31,25 +30,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("@rolePermissionEvaluator.isAdminOrSameUser(authentication, #id)")
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success(userService.getUserById(id)));
     }
 
     @GetMapping("/email/{email}")
-    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public ResponseEntity<ApiResponse<UserResponse>> getUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(ApiResponse.success(userService.getUserByEmail(email)));
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER_VIEW_ALL')")
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
         return ResponseEntity.ok(ApiResponse.success(userService.getAllUsers()));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
             @PathVariable Long id,
             @Valid @RequestBody UserRequest request) {
@@ -58,14 +53,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_DELETE')")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(ApiResponse.success("User deleted successfully", null));
     }
 
     @PostMapping("/{id}/roles")
-    @PreAuthorize("hasAuthority('USER_ROLE_ASSIGNEE')")
     public void assignRoleToUser(@PathVariable Long id, @RequestBody UserRoleRequest request) {
         if(request.operationType() == OperationType.ADD) {
             userService.addRoleToUser(id, new HashSet<>(request.roles()));

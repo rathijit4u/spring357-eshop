@@ -6,6 +6,9 @@ info:
 http:
   method: GET
   url: "{{base_url}}/api/products?page=0&size=20&sort=price,desc"
+  headers:
+    - name: X-TEST-ID
+      value: eshop_getAllProduct_test_1
   params:
     - name: page
       value: "0"

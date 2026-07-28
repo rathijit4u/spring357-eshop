@@ -16,5 +16,6 @@ public interface CartService {
     CartResponse getCartByUser(Long userId);
     List<CartResponse> getCartsByStatus(CartStatus status);
     CartResponse updateOrderStatus(UUID id, CartUpdateRequest request);
-    boolean clearCart(UUID id);
+    void clearCart(UUID id);
+    void checkOut(UUID id);
 }

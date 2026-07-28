@@ -2,9 +2,11 @@ package com.mourathi.aop;
 
 import com.mourathi.config.security.CustomUserDetails;
 import com.mourathi.exception.DuplicateResourceException;
+import com.mourathi.exception.ResourceNotFoundException;
 import net.changeshield.aop.TestCoverageAspect;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 @Aspect
@@ -23,7 +27,10 @@ public class TestAspect extends TestCoverageAspect {
 
     @Override
     public boolean isUnexpectedException(Throwable ex) {
-        return ex.getClass() != DuplicateResourceException.class;
+        List<Class<?>> expectedExceptions = Arrays.asList(DuplicateResourceException.class,
+                ResourceNotFoundException.class, AccessDeniedException.class);
+
+        return !expectedExceptions.contains(ex.getClass());
     }
 
     @Override
