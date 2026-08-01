@@ -1,0 +1,26 @@
+info:
+  name: Add User
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/api/users"
+  body:
+    type: json
+    data: |2-
+        {
+          "firstName": "Bruce",
+          "lastName": "Wayne",
+          "username": "bwayne_bat",
+          "password": "DarkKnight@2026",
+          "email": "bruce.wayne@wayneenterprises.com",
+          "phone": "555-893-1939"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

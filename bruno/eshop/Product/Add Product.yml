@@ -10,12 +10,13 @@ http:
     type: json
     data: |-
       {
-          "name": "Mechanical Gaming Keyboard",
-          "price": 4999.00,
-          "stockQuantity": 75,
-          "sku": "ELEC-KBD-002",
-          "category": "Electronics"
-        }
+        "name": "Ceramic Coffee Mug",
+        "description": null,
+        "price": 499.00,
+        "stockQuantity": 350,
+        "category": "Kitchen",
+        "sku": "HOME-MUG-012"
+      }
   auth: inherit
 
 settings:

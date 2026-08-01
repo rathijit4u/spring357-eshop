@@ -1,0 +1,76 @@
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:16-alpine
+    container_name: eshop-postgres
+    environment:
+      POSTGRES_USER: eshop_user
+      POSTGRES_PASSWORD: eshop_password
+      POSTGRES_DB: eshop_db_docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: eshop-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80" # Maps host port 5050 to pgAdmin's internal port 80
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:7-alpine
+    container_name: eshop-redis
+    ports:
+      - "6379:6379"
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: eshop-redis-insight
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+
+  # Spring Boot Application Service
+  app:
+    build: .
+    container_name: eshop-app
+    ports:
+      - "8080:8080" # Maps host port 8080 to container port 8080
+    environment:
+      # Application Variables
+      - APP_SERVER_PORT=8080
+
+      # Admin User Variables
+      - ADMIN_FIRST_NAME=Admin
+      - ADMIN_LAST_NAME=User
+      - ADMIN_USER_NAME=admin
+      - ADMIN_PASSWORD=supersecret
+      - ADMIN_EMAIL=admin@company.com
+
+      # Database Variables (Pointing to the postgres service name)
+      - POSTGRES_SERVER_URL=jdbc:postgresql://postgres:5432/eshop_db_docker
+      - POSTGRES_USER_NAME=eshop_user
+      - POSTGRES_PASSWORD=eshop_password
+
+      # Redis Variables (Spring Boot default mapping)
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PROJECT_NAME=rathijit4u:spring357-eshop
+      - REDIS_API_TEST_DIR=API_TEST
+      - REDIS_USER_DIR=USER_PROFILE
+      - REDIS_ERROR_DIR=UNKNOWN_ERROR
+    depends_on:
+      - postgres
+      - redis
+
+# Named volume to persist database data across restarts
+volumes:
+  postgres-data:
+  

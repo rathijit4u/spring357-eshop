@@ -4,11 +4,11 @@ info:
   seq: 2
 
 http:
-  method: GET
+  method: POST
   url: "{{base_url}}/api/auth/logout"
   headers:
     - name: X-TEST-ID
-      value: SP27_Logout_test_1
+      value: eshop_Logout_test_1
   params:
     - name: ""
       value: ""

@@ -1,0 +1,31 @@
+info:
+  name: Create Cart
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{base_url}}/api/carts"
+  body:
+    type: json
+    data: |-
+      {
+        "userId": 2,
+        "items": [
+          {
+            "productId": "b8f734da-d0dd-42bf-8840-c5a9ea894018",
+            "quantity": 3
+          },
+          {
+            "productId": "5c7e5c51-e08e-4c30-81f8-b5fe3c2259a1",
+            "quantity": 5
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

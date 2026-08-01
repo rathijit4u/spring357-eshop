@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -14,7 +15,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByStatus(Order.Status status);
 
     @Query("SELECT o FROM Order o JOIN FETCH o.user JOIN FETCH o.items i JOIN FETCH i.product WHERE o.id = :id")
-    java.util.Optional<Order> findByIdWithDetails(@Param("id") Long id);
+    Optional<Order> findByIdWithDetails(@Param("id") Long id);
 
     @Query("SELECT o FROM Order o JOIN FETCH o.user WHERE o.user.id = :userId ORDER BY o.createdAt DESC")
     List<Order> findByUserIdOrderByCreatedAtDesc(@Param("userId") Long userId);

@@ -6,6 +6,9 @@ info:
 http:
   method: GET
   url: "{{base_url}}/api/products/in-stock"
+  headers:
+    - name: X-TEST-ID
+      value: eshop_getInStockProduct_test_1
   auth: inherit
 
 settings:

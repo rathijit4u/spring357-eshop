@@ -11,109 +11,20 @@ http:
     data: |-
       [
         {
-          "name": "Wireless Bluetooth Headphones",
-          "price": 2499.00,
-          "stockQuantity": 150,
-          "sku": "ELEC-WBH-001",
-          "category": "Electronics"
+          "name": "Bulk Item One",
+          "description": "First bulk item",
+          "price": 9.99,
+          "category": "Accessories",
+          "stockQuantity": 15,
+          "sku": "SKU-BULK-1"
         },
         {
-          "name": "Mechanical Gaming Keyboard",
-          "price": 4999.00,
-          "stockQuantity": 75,
-          "sku": "ELEC-KBD-002",
-          "category": "Electronics"
-        },
-        {
-          "name": "USB-C Fast Charging Cable",
-          "price": 599.00,
-          "stockQuantity": 500,
-          "sku": "ACC-CBL-003",
-          "category": "Accessories"
-        },
-        {
-          "name": "Smart LED Desk Lamp",
-          "price": 1899.00,
-          "stockQuantity": 120,
-          "sku": "HOME-LMP-004",
-          "category": "Home & Office"
-        },
-        {
-          "name": "Ergonomic Office Chair",
-          "price": 12999.00,
-          "stockQuantity": 40,
-          "sku": "FURN-CHR-005",
-          "category": "Furniture"
-        },
-        {
-          "name": "Stainless Steel Water Bottle",
-          "price": 799.00,
-          "stockQuantity": 300,
-          "sku": "LIFE-BTL-006",
-          "category": "Lifestyle"
-        },
-        {
-          "name": "Running Shoes",
-          "price": 3499.00,
-          "stockQuantity": 90,
-          "sku": "FTWR-SHO-007",
-          "category": "Footwear"
-        },
-        {
-          "name": "Cotton Casual Shirt",
-          "price": 1499.00,
-          "stockQuantity": 200,
-          "sku": "CLTH-SHR-008",
-          "category": "Clothing"
-        },
-        {
-          "name": "Premium Laptop Backpack",
-          "price": 2299.00,
-          "stockQuantity": 110,
-          "sku": "BAG-LPT-009",
-          "category": "Bags"
-        },
-        {
-          "name": "Android Smart Watch",
-          "price": 5999.00,
-          "stockQuantity": 60,
-          "sku": "WEAR-WCH-010",
-          "category": "Wearables"
-        },
-        {
-          "name": "Noise Cancelling Earbuds",
-          "price": 2999.00,
-          "stockQuantity": 180,
-          "sku": "ELEC-EBU-011",
-          "category": "Electronics"
-        },
-        {
-          "name": "Ceramic Coffee Mug",
-          "price": 499.00,
-          "stockQuantity": 350,
-          "sku": "HOME-MUG-012",
-          "category": "Kitchen"
-        },
-        {
-          "name": "Premium Yoga Mat",
-          "price": 999.00,
-          "stockQuantity": 250,
-          "sku": "SPORT-YGM-013",
-          "category": "Sports"
-        },
-        {
-          "name": "Digital Kitchen Scale",
-          "price": 1299.00,
-          "stockQuantity": 80,
-          "sku": "KIT-SCL-014",
-          "category": "Kitchen"
-        },
-        {
-          "name": "LED Monitor 24 inch",
-          "price": 8999.00,
-          "stockQuantity": 50,
-          "sku": "ELEC-MON-015",
-          "category": "Electronics"
+          "name": "Bulk Item Two",
+          "description": "Second bulk item",
+          "price": 14.99,
+          "category": "Accessories",
+          "stockQuantity": 8,
+          "sku": "SKU-BULK-2"
         }
       ]
   auth: inherit

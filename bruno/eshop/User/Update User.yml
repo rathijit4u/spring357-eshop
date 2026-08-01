@@ -1,0 +1,25 @@
+info:
+  name: Update User
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{base_url}}/api/users/7"
+  body:
+    type: json
+    data: |2-
+        {
+          "firstName": "Peter",
+          "lastName": "Parker",
+          "username": "pparker_web",
+          "email": "peter.parker@dailybugle.com",
+          "phone": "555-019-8888"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -14,7 +14,7 @@ http:
           "userId": 2,
           "items": [
             {
-              "productId": 5,
+              "productId": "33b17ece-121b-462d-9435-eef3f10148f4",
               "quantity": 5
             }
           ]

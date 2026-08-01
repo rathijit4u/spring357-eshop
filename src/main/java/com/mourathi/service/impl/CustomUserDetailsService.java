@@ -1,8 +1,8 @@
 package com.mourathi.service.impl;
 
+import com.mourathi.config.security.CustomUserDetails;
 import com.mourathi.entity.User;
 import com.mourathi.repository.UserRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,15 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        return org.springframework.security.core.userdetails
-                .User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .authorities( user.getRoles()
-                        .stream()
-                        .map(roleEntity -> new SimpleGrantedAuthority(roleEntity.getName().name()))
-                        .toList())
-                .build();
-
-                }
+        return new CustomUserDetails(user);
+    }
 }
