@@ -23,8 +23,8 @@ mvn clean package -DskipTests
 ```
 
 ### Docker
-```azure
-docker compose up -d --build
+```cmd
+docker compose --env-file .env_deploy  up -d --build
 ```
 
 ## Setup AOP 
