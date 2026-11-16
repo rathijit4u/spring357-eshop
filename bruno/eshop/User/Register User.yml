@@ -6,16 +6,19 @@ info:
 http:
   method: POST
   url: "{{base_url}}/api/auth/register"
+  headers:
+    - name: X-TEST-ID
+      value: SP27_Register_User_1
   body:
     type: json
     data: |2-
         {
-          "firstName": "Bruce",
-          "lastName": "Banner",
-          "username": "bbanner_sci",
-          "password": "GammaRay@2026",
-          "email": "bruce.banner@avengers.com",
-          "phone": "555-764-9921"
+          "firstName": "Carol",
+          "lastName": "Danvers",
+          "username": "captainmarvel",
+          "password": "Photon$Blast10",
+          "email": "carol.danvers@example.com",
+          "phone": "9876500010"
         }
   auth: inherit
 
@@ -24,3 +27,4 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true

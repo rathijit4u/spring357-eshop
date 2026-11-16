@@ -22,7 +22,13 @@ POSTGRES_PASSWORD=<>
 mvn clean package -DskipTests
 ```
 
-### Docker
+### Docker for testing
+```cmd
+docker compose build --no-cache app
+docker compose --profile tools up -d
+```
+
+### Docker for Deploy
 ```cmd
 docker compose --env-file .env_deploy  up -d --build
 ```

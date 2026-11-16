@@ -39,6 +39,8 @@ services:
     container_name: eshop-redis
     restart: unless-stopped
     command: [ "redis-server", "--appendonly", "yes", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru" ]
+    ports:
+      - "6379:6379"
     volumes:
       - redis-data:/data
     healthcheck:
@@ -78,7 +80,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       POSTGRES_SERVER_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-      POSTGRES_USER_NAME: ${POSTGRES_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       REDIS_HOST: redis
       REDIS_PORT: 6379

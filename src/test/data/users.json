@@ -1,0 +1,82 @@
+[
+  {
+    "firstName": "Peter",
+    "lastName": "Parker",
+    "username": "spiderman",
+    "password": "Web$linger01",
+    "email": "peter.parker@example.com",
+    "phone": "9876500001"
+  },
+  {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "username": "batman",
+    "password": "DarkKnight#02",
+    "email": "bruce.wayne@example.com",
+    "phone": "9876500002"
+  },
+  {
+    "firstName": "Clark",
+    "lastName": "Kent",
+    "username": "superman",
+    "password": "Krypton!Son03",
+    "email": "clark.kent@example.com",
+    "phone": "9876500003"
+  },
+  {
+    "firstName": "Diana",
+    "lastName": "Prince",
+    "username": "wonderwoman",
+    "password": "Amazon$Lasso04",
+    "email": "diana.prince@example.com",
+    "phone": "9876500004"
+  },
+  {
+    "firstName": "Tony",
+    "lastName": "Stark",
+    "username": "ironman",
+    "password": "Arc#Reactor05",
+    "email": "tony.stark@example.com",
+    "phone": "9876500005"
+  },
+  {
+    "firstName": "Steve",
+    "lastName": "Rogers",
+    "username": "captainamerica",
+    "password": "Shield!Star06",
+    "email": "steve.rogers@example.com",
+    "phone": "9876500006"
+  },
+  {
+    "firstName": "Natasha",
+    "lastName": "Romanoff",
+    "username": "blackwidow",
+    "password": "Red$Ledger07",
+    "email": "natasha.romanoff@example.com",
+    "phone": "9876500007"
+  },
+  {
+    "firstName": "Barry",
+    "lastName": "Allen",
+    "username": "theflash",
+    "password": "Speed#Force08",
+    "email": "barry.allen@example.com",
+    "phone": "9876500008"
+  },
+  {
+    "firstName": "Wanda",
+    "lastName": "Maximoff",
+    "username": "scarletwitch",
+    "password": "Chaos!Magic09",
+    "email": "wanda.maximoff@example.com",
+    "phone": "9876500009"
+  },
+  {
+    "firstName": "Carol",
+    "lastName": "Danvers",
+    "username": "captainmarvel",
+    "password": "Photon$Blast10",
+    "email": "carol.danvers@example.com",
+    "phone": "9876500010"
+  }
+]

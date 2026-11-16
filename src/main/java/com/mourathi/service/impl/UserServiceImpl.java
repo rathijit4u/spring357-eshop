@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public void save(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new DuplicateResourceException("User with email '" + user.getEmail() + "' already exists");

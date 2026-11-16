@@ -8,14 +8,14 @@ http:
   url: "{{base_url}}/api/users"
   body:
     type: json
-    data: |2-
-        {
-          "firstName": "Bruce",
-          "lastName": "Wayne",
-          "username": "bwayne_bat",
-          "password": "DarkKnight@2026",
-          "email": "bruce.wayne@wayneenterprises.com",
-          "phone": "555-893-1939"
+    data: |-
+      {
+          "firstName": "Natasha",
+          "lastName": "Romanoff",
+          "username": "blackwidow",
+          "password": "Red$Ledger07",
+          "email": "natasha.romanoff@example.com",
+          "phone": "9876500007"
         }
   auth: inherit
 
@@ -24,3 +24,4 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true
