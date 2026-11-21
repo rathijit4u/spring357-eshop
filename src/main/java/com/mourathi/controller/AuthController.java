@@ -13,6 +13,7 @@ import com.mourathi.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -52,7 +53,9 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Username already taken"));

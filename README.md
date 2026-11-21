@@ -25,6 +25,7 @@ mvn clean package -DskipTests
 ### Docker for testing
 ```cmd
 docker compose build --no-cache app
+docker compose --profile tools down
 docker compose --profile tools up -d
 ```
 

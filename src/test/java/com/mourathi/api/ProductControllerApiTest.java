@@ -1,4 +1,4 @@
-package com.mourathi;
+package com.mourathi.api;
 
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;

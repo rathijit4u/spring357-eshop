@@ -1,4 +1,4 @@
-package com.mourathi;
+package com.mourathi.unit;
 
 import com.mourathi.dto.ProductResponse;
 import com.mourathi.entity.Product;
